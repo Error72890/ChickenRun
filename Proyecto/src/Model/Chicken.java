@@ -4,7 +4,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Chicken {
-    private final int SPEED = 4;
+    public final int SPEED = 2;
     private Image up, down, left, right;
     private int posX, posY, dirX, dirY;
         
