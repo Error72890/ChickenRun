@@ -3,9 +3,7 @@ package Controller;
 import Model.GameManager;
 import Util.SpriteBank;
 import View.Game_View;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,7 +19,7 @@ public class Game_Controller implements ActionListener{
     private Game_View game_View;
     private GameManager gameManager;
     private SpriteBank spriteBank;
-    private boolean runningGame = false;
+    private boolean runningGame = false, paused = false;
     
     //Screen config
     private final Font smallFont = new Font("Arial", Font.BOLD, 14);
@@ -33,10 +31,12 @@ public class Game_Controller implements ActionListener{
     
     public Game_Controller(Game_View game_View){
         spriteBank = new SpriteBank();
-        game_View.getContentPane().add(new GamePanel());
         this.game_View = game_View;
+        this.game_View.getContentPane().add(new GamePanel());
         this.game_View.addKeyListener(new KeyboardAdapter());
         this.game_View.setFocusable(true);
+        this.game_View.getItem1().addActionListener(this);
+        this.game_View.getItem2().addActionListener(this);
         gameManager = new GameManager();
         gameManager.initVariables(this);
         gameManager.newGame();
@@ -65,28 +65,36 @@ public class Game_Controller implements ActionListener{
 
         @Override
         public void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
+            Graphics2D graphics = (Graphics2D) g;
+            graphics.setColor(Color.black);
+            graphics.fillRect(0, 0, SCREEN_SIZE, SCREEN_SIZE);
 
-            g2d.setColor(Color.black);
-            g2d.fillRect(0, 0, SCREEN_SIZE, SCREEN_SIZE);
-
-            drawMaze(g2d);
-            drawScore(g2d);
+            drawMaze(graphics);
+            drawScore(graphics);
 
             if (runningGame) {
-                playGame(g2d);
+                playGame(graphics);
             } else {
-                showIntroScreen(g2d);
+                if(paused){      
+                    drawChicken(graphics);              
+                    showPauseScreen(graphics);
+                }else{
+                    showIntroScreen(graphics);
+                }
             }
-
             Toolkit.getDefaultToolkit().sync();
-            g2d.dispose();
+            graphics.dispose();
         }
     }
     
     private void showIntroScreen(Graphics2D graphics) {
     	String start = "Press SPACE to start";
-        graphics.setColor(Color.yellow);
+        graphics.setColor(Color.white);
+        graphics.drawString(start, (SCREEN_SIZE)/4, 150);
+    }  
+    private void showPauseScreen(Graphics2D graphics) {
+    	String start = "Press SPACE to Continue";
+        graphics.setColor(Color.white);
         graphics.drawString(start, (SCREEN_SIZE)/4, 150);
     }  
     private void drawScore(Graphics2D graphics) {
@@ -141,19 +149,28 @@ public class Game_Controller implements ActionListener{
     }
     private void drawChicken(Graphics2D graphics){
         if(gameManager.getCtrlDirX() == -1) {
-        	graphics.drawImage(spriteBank.CHICKEN_LEFT, gameManager.getChickenPosX() * BLOCK_SIZE, gameManager.getChickenPosY() * BLOCK_SIZE, game_View);
+        	graphics.drawImage(spriteBank.CHICKEN_LEFT, gameManager.getChickenPosX(), gameManager.getChickenPosY(), game_View);
         } else if (gameManager.getCtrlDirX() == 1) {
-        	graphics.drawImage(spriteBank.CHICKEN_RIGHT, gameManager.getChickenPosX() * BLOCK_SIZE, gameManager.getChickenPosY() * BLOCK_SIZE, game_View);
+        	graphics.drawImage(spriteBank.CHICKEN_RIGHT, gameManager.getChickenPosX(), gameManager.getChickenPosY(), game_View);
         } else if (gameManager.getCtrlDirY() == -1) {
-        	graphics.drawImage(spriteBank.CHICKEN_DOWN, gameManager.getChickenPosX() * BLOCK_SIZE, gameManager.getChickenPosY() * BLOCK_SIZE, game_View);
+        	graphics.drawImage(spriteBank.CHICKEN_DOWN, gameManager.getChickenPosX(), gameManager.getChickenPosY(), game_View);
         } else {
-        	graphics.drawImage(spriteBank.CHICKEN_UP, gameManager.getChickenPosX() * BLOCK_SIZE, gameManager.getChickenPosY() * BLOCK_SIZE, game_View);
+        	graphics.drawImage(spriteBank.CHICKEN_UP, gameManager.getChickenPosX(), gameManager.getChickenPosY(), game_View);
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent evento) {
+    public void actionPerformed(ActionEvent event) {
         game_View.repaint();
+        if(game_View.getItem1() == event.getSource()){
+            runningGame = false;
+            paused = false;
+            gameManager.newGame();
+            gameManager.initNewLevel();
+        }
+        if(game_View.getItem2() == event.getSource()){
+            
+        }
     }
    
     public class KeyboardAdapter extends KeyAdapter {
@@ -174,13 +191,19 @@ public class Game_Controller implements ActionListener{
                     gameManager.setCtrlDirX(0);
                     gameManager.setCtrlDirY(1);
                 } else if (key == KeyEvent.VK_ESCAPE && gameManager.getTimer().isRunning()) {
-                    runningGame = false;
+                    runningGame = false; 
+                    paused = true;
                 }
             } else {
                 if (key == KeyEvent.VK_SPACE) {
-                    runningGame = true;
-                    gameManager.newGame();
-                    gameManager.initNewLevel();
+                    if(paused){
+                        runningGame = true;
+                        paused = false;
+                    }else{
+                        runningGame = true;
+                        gameManager.newGame();
+                        gameManager.initNewLevel();
+                    }
                 }
             }
         }
