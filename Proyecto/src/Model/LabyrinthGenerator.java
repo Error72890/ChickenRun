@@ -7,13 +7,18 @@ public class LabyrinthGenerator {
     private void generate(){
         String[] newLabyrinth = new String[LABYRINTHSIZE];;
     Random randon = new Random();
-		int [][] matriz = new int [19][19];
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz.length; j++) {
-				matriz[i][j] = randon.nextInt(10);
+		int [][] labyrinth = new int [19][19];
+		for (int i = 0; i < labyrinth.length; i++) {
+			for (int j = 0; j < labyrinth.length; j++) {
+                                if(i==0||i==18){
+                                    labyrinth[i][j]=1;
+                                }
+                                else if(j==0||j==18){
+                                    labyrinth[i][j]=1;
+                                }
+                                else labyrinth[i][j] = randon.nextInt(0,2);
 			}
 		}
-    }
         labyrinth = newLabyrinth;
     }
     
