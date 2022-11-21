@@ -25,8 +25,8 @@ public class MainMenu_Controller implements ActionListener{
         }if(mainMenu_View.getScoreBtn() == event.getSource()){
             ScoreTable_View scoreTable_View = new ScoreTable_View();
             ScoreTable_Controller scoreTable_Controller = new ScoreTable_Controller(scoreTable_View);
+            scoreTable_View.setLocationRelativeTo(null);
             scoreTable_View.setVisible(true);
-            this.mainMenu_View.dispose();
         }
     }
 }
