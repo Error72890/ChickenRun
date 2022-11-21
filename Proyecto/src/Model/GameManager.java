@@ -29,7 +29,8 @@ public class GameManager {
     public void initNewLevel() {
         int i;
         LabyrinthGenerator lg = new LabyrinthGenerator();
-        levelData = lg.getNewLabyrinth();
+        //levelData = lg.getNewLabyrinth();
+        levelData = lg.getPrefabLabyrinth();
         for (i = 0; i < BLOCKS_NUMBER * BLOCKS_NUMBER; i++) {
             currentScreenData[i] = levelData[i];
         }

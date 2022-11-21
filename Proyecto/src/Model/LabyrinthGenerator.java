@@ -1,11 +1,16 @@
 package Model;
 
+import Util.CSVWriteReader;
 import java.util.Random;
 
 public class LabyrinthGenerator {
     private static final int LABYRINTHSIZE = 19;
     private short[] labyrinth;
+    private CSVWriteReader CSVReader;
     
+    public LabyrinthGenerator(){
+        CSVReader = new CSVWriteReader();
+    }
     /*
         0 = empty;
         1 = esquina superior izquierda
@@ -22,7 +27,6 @@ public class LabyrinthGenerator {
         El centro y las esquinas donde van los zorros quedan en 0, todo lo demás que no sea una 
         pared de algún tipo es 10.
     */
-    
     private void generate(){
         short[] newLabyrinth = new short[LABYRINTHSIZE * LABYRINTHSIZE];;
         
@@ -61,27 +65,13 @@ public class LabyrinthGenerator {
     }
     
     public short[] getPrefabLabyrinth(){
-        short[] levelData= {
-            1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,
-            8,0,10,10,10,10,10,10,9,10,10,10,10,10,10,10,10,0,4,
-            8,10,9,9,9,9,9,10,9,10,9,9,9,9,9,9,9,10,4,
-            8,10,10,9,10,10,9,10,9,10,9,10,10,10,10,10,9,10,4,
-            8,9,10,10,10,10,10,10,10,10,9,10,9,9,9,10,9,10,4,
-            8,9,9,9,9,9,9,9,9,10,10,10,10,10,9,10,9,10,4,
-            8,10,10,10,9,10,10,10,10,10,9,9,9,10,9,10,10,10,4,
-            8,10,9,10,10,10,9,9,9,10,10,10,10,10,10,10,9,10,4,
-            8,10,10,10,9,10,10,10,9,9,9,10,9,9,9,9,9,10,4,
-            8,9,9,9,9,9,9,10,10,0,9,10,10,10,10,10,10,10,4,
-            8,10,10,10,10,10,9,10,9,10,10,10,9,9,9,9,10,9,4,
-            8,10,9,10,9,10,10,10,9,10,9,9,9,10,10,10,10,10,4,
-            8,10,9,10,9,9,9,10,9,10,9,10,10,10,9,9,9,10,4,
-            8,10,9,10,9,10,10,10,9,10,10,10,9,10,10,10,9,10,4,
-            8,10,9,10,9,10,9,10,9,9,9,9,9,10,9,10,9,10,4,
-            8,10,9,10,10,10,9,10,10,10,10,10,10,10,9,10,9,10,4,
-            8,10,9,9,9,9,9,10,9,9,9,9,9,10,9,10,9,10,4,
-            8,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,0,4,
-            7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,
-        };
+        String[][] readedText = CSVReader.readFrom("src/Data/DemoLabyData.txt");
+        short[] levelData = new short[LABYRINTHSIZE*LABYRINTHSIZE];
+        for(int i=0; i<LABYRINTHSIZE; i++){
+            for(int j=0; j<LABYRINTHSIZE; j++){
+                levelData[(i*LABYRINTHSIZE)+j] = Short.parseShort(readedText[i][j]);
+            }
+        }
         return levelData;
     }
 }

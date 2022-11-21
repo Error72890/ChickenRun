@@ -3,6 +3,7 @@ package Controller;
 import Model.GameManager;
 import Util.SpriteBank;
 import View.Game_View;
+import View.ScoreTable_View;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -169,7 +170,12 @@ public class Game_Controller implements ActionListener{
             gameManager.initNewLevel();
         }
         if(game_View.getItem2() == event.getSource()){
-            
+            runningGame = false; 
+            paused = true;
+            ScoreTable_View scoreTable_View = new ScoreTable_View();
+            ScoreTable_Controller scoreTable_Controller = new ScoreTable_Controller(scoreTable_View);
+            scoreTable_View.setLocationRelativeTo(null);
+            scoreTable_View.setVisible(true);
         }
     }
    
