@@ -56,6 +56,7 @@ public class LabyrinthGenerator {
         newLabyrinth[LABYRINTHSIZE * LABYRINTHSIZE - 1] = 5;
         newLabyrinth[(LABYRINTHSIZE * LABYRINTHSIZE) - LABYRINTHSIZE - 1] = 7;
         newLabyrinth[(LABYRINTHSIZE * LABYRINTHSIZE) / 2 - 1] = 0;
+
         labyrinth = newLabyrinth;
     }
     
