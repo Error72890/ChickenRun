@@ -17,24 +17,9 @@ public class ScoreTable_View extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Alejandro", "500"},
-                {"Carlos", "900"},
-                {"Edwin", "850"},
-                {"Pedro", "600"},
-                {"Benja", "700"}
-            },
-            new String [] {
-                "Nombre", "Puntuación"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,7 +74,5 @@ public class ScoreTable_View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
