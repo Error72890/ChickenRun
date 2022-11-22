@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CSVWriteReader {
-    private Short MAX_READ_SIZE = 20;
+    private final Short MAX_READ_SIZE = 20;
 
     public String[][] readFrom(String path) {
         String[][] readedData = new String[MAX_READ_SIZE][MAX_READ_SIZE];

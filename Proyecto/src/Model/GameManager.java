@@ -9,16 +9,17 @@ public class GameManager {
     private final int BLOCKS_NUMBER = 19;
     private Chicken chicken;
     private int lives, score;
-    private boolean catched = false;
+    private boolean catched;
     private Timer timer;
     private short[] currentScreenData;
     private int ctrlDirX, ctrlDirY;     //Control reqs
     
     short[] levelData;
     
-    public void initVariables(ActionListener al){
+    public void initVariables(ActionListener al){ //Considerar usar constructor
         chicken = new Chicken();
         currentScreenData = new short[BLOCKS_NUMBER * BLOCKS_NUMBER];
+        catched = false;
         timer = new Timer(40, al);
         timer.start();
     }
