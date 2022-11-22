@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Model;
 
 import org.junit.After;
@@ -11,10 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Carlo
- */
 public class ChickenTest {
     
     public ChickenTest() {
@@ -42,11 +34,10 @@ public class ChickenTest {
     @Test
     public void testSetPosX() {
         System.out.println("setPosX");
-        int newPos = 0;
+        int newPos = 300;
         Chicken instance = new Chicken();
         instance.setPosX(newPos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(300, instance.getPosX());
     }
 
     /**
@@ -55,11 +46,10 @@ public class ChickenTest {
     @Test
     public void testSetPosY() {
         System.out.println("setPosY");
-        int newPos = 0;
+        int newPos = 300;
         Chicken instance = new Chicken();
         instance.setPosY(newPos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(300, instance.getPosY());
     }
 
     /**
@@ -69,11 +59,10 @@ public class ChickenTest {
     public void testGetPosX() {
         System.out.println("getPosX");
         Chicken instance = new Chicken();
-        int expResult = 0;
+        instance.setPosX(300);
+        int expResult = 300;
         int result = instance.getPosX();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -83,11 +72,10 @@ public class ChickenTest {
     public void testGetPosY() {
         System.out.println("getPosY");
         Chicken instance = new Chicken();
-        int expResult = 0;
+        instance.setPosY(300);
+        int expResult = 300;
         int result = instance.getPosY();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -96,11 +84,10 @@ public class ChickenTest {
     @Test
     public void testSetDirX() {
         System.out.println("setDirX");
-        int newDir = 0;
+        int newDir = 1;
         Chicken instance = new Chicken();
         instance.setDirX(newDir);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1, instance.getDirX());
     }
 
     /**
@@ -112,8 +99,7 @@ public class ChickenTest {
         int newDir = 0;
         Chicken instance = new Chicken();
         instance.setDirY(newDir);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, instance.getDirX());
     }
 
     /**
@@ -123,11 +109,10 @@ public class ChickenTest {
     public void testGetDirX() {
         System.out.println("getDirX");
         Chicken instance = new Chicken();
-        int expResult = 0;
+        int expResult = 1;
+        instance.setDirX(1);
         int result = instance.getDirX();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -137,11 +122,10 @@ public class ChickenTest {
     public void testGetDirY() {
         System.out.println("getDirY");
         Chicken instance = new Chicken();
-        int expResult = 0;
+        int expResult = 1;
+        instance.setDirY(1);
         int result = instance.getDirY();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
