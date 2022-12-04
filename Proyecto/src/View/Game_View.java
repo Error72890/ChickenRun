@@ -1,5 +1,7 @@
 package View;
 
+import javax.swing.JMenuItem;
+
 public class Game_View extends javax.swing.JFrame {
 
     /**
@@ -21,7 +23,6 @@ public class Game_View extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -38,9 +39,6 @@ public class Game_View extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem3.setText("End game");
-        jMenu1.add(jMenuItem3);
-
         jMenuItem2.setText("Score table");
         jMenu1.add(jMenuItem2);
 
@@ -56,7 +54,7 @@ public class Game_View extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 304, Short.MAX_VALUE)
+            .addGap(0, 322, Short.MAX_VALUE)
         );
 
         pack();
@@ -101,12 +99,18 @@ public class Game_View extends javax.swing.JFrame {
             }
         });
     }
+    
+    public JMenuItem getItem1(){
+        return jMenuItem1;
+    }
+    public JMenuItem getItem2(){
+        return jMenuItem2;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 }
