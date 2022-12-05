@@ -4,15 +4,18 @@ import Util.CSVWriteReader;
 import java.util.Random;
 
 public class LabyrinthGenerator {
+    private static final String[] MAP_POOL = {"DemoLabyData","Map1","Map2","Map3","Map4","Map5","Map6"};
     private static final int LABYRINTHSIZE = 19;
     private short[] labyrinth;
-    private CSVWriteReader CSVReader;
+    private final Random random;
+    private final CSVWriteReader csvReader;
     
     public LabyrinthGenerator(){
-        CSVReader = new CSVWriteReader();
+        csvReader = CSVWriteReader.getInstance();
+        random = new Random();
     }
     /*
-        0 = empty;
+        0 = empty
         1 = esquina superior izquierda
         2 = paredes superiores
         3 = esquina superior derecha
@@ -27,52 +30,33 @@ public class LabyrinthGenerator {
         El centro y las esquinas donde van los zorros quedan en 0, todo lo demás que no sea una 
         pared de algún tipo es 10.
     */
-    private void generate(){
-        short[] newLabyrinth = new short[LABYRINTHSIZE * LABYRINTHSIZE];;
-        
-        Random random = new Random();
-        for(int i=0; i < LABYRINTHSIZE * LABYRINTHSIZE; i++){
-            int aux = random.nextInt(0, 3);
-            if(aux == 0){
-                newLabyrinth[i] = 9;
-            }else{
-                newLabyrinth[i] = 10;
-            }
-            if(i < LABYRINTHSIZE){
-                newLabyrinth[i] = 2;
-            }
-            if(i % LABYRINTHSIZE == LABYRINTHSIZE-1){
-                newLabyrinth[i] = 4;
-            }
-            if(i > (LABYRINTHSIZE * LABYRINTHSIZE) - LABYRINTHSIZE - 1){
-                newLabyrinth[i] = 6;
-            }
-            if(i % LABYRINTHSIZE == 0){
-                newLabyrinth[i] = 8;
-            }
-        }    
-        newLabyrinth[0] = 1;
-        newLabyrinth[LABYRINTHSIZE - 1] = 3;
-        newLabyrinth[LABYRINTHSIZE * LABYRINTHSIZE - 1] = 5;
-        newLabyrinth[(LABYRINTHSIZE * LABYRINTHSIZE) - LABYRINTHSIZE - 1] = 7;
-        newLabyrinth[(LABYRINTHSIZE * LABYRINTHSIZE) / 2 - 1] = 0;
-
-        labyrinth = newLabyrinth;
-    }
-    
     public short[] getNewLabyrinth(){
-        generate();
+        randomizeAll();
         return labyrinth;
     }
     
-    public short[] getPrefabLabyrinth(){
-        String[][] readedText = CSVReader.readFrom("src/Data/DemoLabyData.txt");
-        short[] levelData = new short[LABYRINTHSIZE*LABYRINTHSIZE];
-        for(int i=0; i<LABYRINTHSIZE; i++){
-            for(int j=0; j<LABYRINTHSIZE; j++){
-                levelData[(i*LABYRINTHSIZE)+j] = Short.parseShort(readedText[i][j]);
+    private void randomizeAll(){
+        this.labyrinth = new short[LABYRINTHSIZE * LABYRINTHSIZE];
+        int exactMid;
+        exactMid = LABYRINTHSIZE/2;
+        randomizeChunk(0,exactMid,0,exactMid);
+        randomizeChunk(exactMid,LABYRINTHSIZE,0,exactMid);
+        randomizeChunk(0,exactMid,exactMid,LABYRINTHSIZE);
+        randomizeChunk(exactMid,LABYRINTHSIZE,exactMid,LABYRINTHSIZE);
+    }
+    private void randomizeChunk(int xMin, int xMax, int yMin, int yMax){
+        String mapName = MAP_POOL[random.nextInt(0, MAP_POOL.length)];
+        String[][] readedText = csvReader.readFrom("src/Data/"+ mapName + ".txt");
+        int x;
+        for(x = xMin; x < xMax; x++){
+            int y;
+            for(y = yMin; y < yMax; y++){
+                try{
+                    labyrinth[(x*LABYRINTHSIZE)+y] = Short.parseShort(readedText[x][y]);
+                }catch(NumberFormatException e){
+                    labyrinth[(x*LABYRINTHSIZE)+y] = 9;
+                }
             }
         }
-        return levelData;
     }
 }
