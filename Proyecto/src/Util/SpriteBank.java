@@ -4,6 +4,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class SpriteBank {
+    private static SpriteBank instance;
+    
     public static final Image CLEARFLOOR = new ImageIcon("src/Sprites/Clean.gif").getImage();
     public static final Image CORNER1 = new ImageIcon("src/Sprites/Corner1.gif").getImage();
     public static final Image CORNER2 = new ImageIcon("src/Sprites/Corner2.gif").getImage();
@@ -25,4 +27,19 @@ public class SpriteBank {
     public static final Image REDFOX_RIGHT = new ImageIcon("src/Sprites/RFox_Right.gif").getImage();
     public static final Image PINKFOX_RIGHT = new ImageIcon("src/Sprites/PFox_Right.gif").getImage();
     public static final Image CYANFOX_RIGHT = new ImageIcon("src/Sprites/CFox_Right.gif").getImage();
+    public static final Image ORANGEFOX_LEFT = new ImageIcon("src/Sprites/OFox_Left.gif").getImage();
+    public static final Image REDFOX_LEFT = new ImageIcon("src/Sprites/RFox_Left.gif").getImage();
+    public static final Image PINKFOX_LEFT = new ImageIcon("src/Sprites/PFox_Left.gif").getImage();
+    public static final Image CYANFOX_LEFT = new ImageIcon("src/Sprites/CFox_Left.gif").getImage();
+    
+    private SpriteBank(){
+        
+    }
+    
+    public static SpriteBank getInstance(){
+        if(instance == null){
+            instance = new SpriteBank();
+        }
+        return instance;
+    }
 }

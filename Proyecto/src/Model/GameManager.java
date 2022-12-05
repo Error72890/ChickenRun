@@ -14,19 +14,21 @@ public class GameManager {
     private int lives;
     private int score;
     private final Timer timer;
+    private int inGameTime;
     private short[] currentScreenData;
     private int ctrlDirX;
     private int ctrlDirY;
     
     public GameManager(ActionListener al){
         chicken = new Chicken();
-        pinky = new pinkFox(1,1, 1*CELL_SIZE, 1*CELL_SIZE);
-        blinky = new RedFox(17,1, 17*CELL_SIZE, 1*CELL_SIZE);
-        clyde = new OrangeFox(1,17, 1*CELL_SIZE, 17*CELL_SIZE);
+        clyde = new OrangeFox(1,1, 1*CELL_SIZE, 1*CELL_SIZE);
+        blinky = new RedFox(1,17, 1*CELL_SIZE, 17*CELL_SIZE);
+        pinky = new pinkFox(17,1, 17*CELL_SIZE, 1*CELL_SIZE);
         inky = new cyanFox(17,17, 17*CELL_SIZE, 17*CELL_SIZE);
         currentScreenData = new short[MAP_LENGTH * MAP_LENGTH];
         timer = new Timer(20, al);
         timer.start();
+        inGameTime = 0;
     }
     public void newGame() {
     	lives = 3;
@@ -34,7 +36,7 @@ public class GameManager {
     }
     public void initNewLevel() {
         LabyrinthGenerator lg = new LabyrinthGenerator();
-        currentScreenData = lg.getPrefabLabyrinth();
+        currentScreenData = lg.getNewLabyrinth();
         resetPlayerDirPos();
         clyde.resetCellPos(1*CELL_SIZE, 1*CELL_SIZE);
         clyde.resetDir();
@@ -48,14 +50,57 @@ public class GameManager {
         inky.resetCellPos(17*CELL_SIZE, 17*CELL_SIZE);
         inky.resetDir();
         inky.setNewMapData(currentScreenData);
+        inGameTime = 0;
     }
     public void update(){
-        if (isCatched()) {
+        inGameTime++;
+        if(inGameTime <= 4000){
+            String mode1 = "Chase";
+            String mode2 = "Scatter";
+            switch(inGameTime){
+                case (1):
+                    changeFoxesMode(mode1);
+                    break;
+                case (8000):
+                    changeFoxesMode(mode2);
+                    break;
+                case (1500):
+                    changeFoxesMode(mode1);
+                    break;
+                case (2500):
+                    changeFoxesMode(mode2);
+                    break;
+                case (3000):
+                    changeFoxesMode(mode1);
+                    break;
+                case (3500):
+                    changeFoxesMode(mode2);
+                    break;
+                case (4000):
+                    changeFoxesMode(mode1);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+        if(allPointsRecolected()){
+            initNewLevel();
+        }else if (isCatched()) {
             death();
         }else {
-            moveChicken();
             moveFoxes();
+            moveChicken();
         }
+    }
+    public boolean allPointsRecolected(){
+        int index;
+        for(index=0; index < currentScreenData.length; index++){
+            if(currentScreenData[index] == 10){
+                return false;
+            }
+        }
+        return true;
     }
     public boolean isCatched(){
         return ((chicken.getPosX()==clyde.getPosX() && chicken.getPosY()==clyde.getPosY()) || (chicken.getPosX()==blinky.getPosX() && chicken.getPosY()==blinky.getPosY()) || (chicken.getPosX()==pinky.getPosX() && chicken.getPosY()==pinky.getPosY()) || (chicken.getPosX()==inky.getPosX() && chicken.getPosY()==inky.getPosY())) 
@@ -72,6 +117,7 @@ public class GameManager {
         blinky.resetCellPos(1*CELL_SIZE, 17*CELL_SIZE);
         pinky.resetCellPos(17*CELL_SIZE, 1*CELL_SIZE);
         inky.resetCellPos(17*CELL_SIZE, 17*CELL_SIZE);
+        inGameTime = 0;
     }
     
     public void resetPlayerDirPos() {
@@ -149,7 +195,12 @@ public class GameManager {
     private boolean foxesOnExactCell(Fox fox){
         return (fox.getPosX() % CELL_SIZE == 0 && fox.getPosY() % CELL_SIZE == 0);
     }
-    
+    public void changeFoxesMode(String newMode){
+        clyde.setMode(newMode);
+        blinky.setMode(newMode);
+        pinky.setMode(newMode);
+        inky.setMode(newMode);
+    }
     public int getBlockSize(){
         return CELL_SIZE;
     } 
@@ -204,11 +255,17 @@ public class GameManager {
     public int getOFoxPosY(){
         return clyde.getPosY();
     }
+    public int getOFoxDirX(){
+        return clyde.getDirX();
+    }
     public int getRFoxPosX(){
         return blinky.getPosX();
     }
     public int getRFoxPosY(){
         return blinky.getPosY();
+    }
+    public int getRFoxDirX(){
+        return blinky.getDirX();
     }
     public int getPFoxPosX(){
         return pinky.getPosX();
@@ -216,10 +273,16 @@ public class GameManager {
     public int getPFoxPosY(){
         return pinky.getPosY();
     }
+    public int getPFoxDirX(){
+        return pinky.getDirX();
+    }
     public int getCFoxPosX(){
         return inky.getPosX();
     }
     public int getCFoxPosY(){
         return inky.getPosY();
+    }
+    public int getCFoxDirX(){
+        return inky.getDirX();
     }
 }
